@@ -2,6 +2,7 @@ package deezer
 
 import (
 	"context"
+	"net/url"
 )
 
 type SearchResult struct {
@@ -19,8 +20,8 @@ type SearchResult struct {
 	Album          Album  `json:"album"`
 }
 
-func (c *Client) Search(ctx context.Context, query string) (*[]SearchResult, error) {
-	deezerUrl := c.baseURL + "/search?q=" + query
+func (c *Client) Search(ctx context.Context, query string) ([]SearchResult, error) {
+	deezerUrl := c.baseURL + "/search?q=" + url.QueryEscape(query)
 
 	var result struct {
 		Data []SearchResult `json:"data"`
@@ -31,5 +32,5 @@ func (c *Client) Search(ctx context.Context, query string) (*[]SearchResult, err
 		return nil, err
 	}
 
-	return &result.Data, nil
+	return result.Data, nil
 }

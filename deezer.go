@@ -44,10 +44,6 @@ func (c *Client) get(ctx context.Context, url string, result interface{}) error 
 		return c.decodeError(resp)
 	}
 
-	//byt, err := io.ReadAll(resp.Body)
-	//log.Println(string(byt))
-	//log.Println(err)
-
 	return json.NewDecoder(resp.Body).Decode(result)
 }
 
